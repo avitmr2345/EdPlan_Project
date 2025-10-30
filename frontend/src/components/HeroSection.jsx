@@ -1,16 +1,18 @@
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import CollegeCard from "./CollegeCard";
 
 export default function HeroSection() {
+  const [collegeData, setCollegeData] = useState(null);
 
   useEffect(() => {
     const fetchCollegeData = async () => {
       try {
         const apiKey = import.meta.env.VITE_COLLEGE_API_KEY;
         const response = await fetch(
-          `https://api.data.gov/ed/collegescorecard/v1/schools?api_key=${apiKey}&school.name=Stanford University`
+          `https://api.data.gov/ed/collegescorecard/v1/schools?api_key=${apiKey}&school.name=Santa Fe College`
         );
 
         if (!response.ok) {
@@ -19,6 +21,7 @@ export default function HeroSection() {
 
         const data = await response.json();
         console.log("Fetched college data:", data);
+        setCollegeData(data);
       } catch (error) {
         console.error("Error fetching college data:", error);
       }
@@ -57,6 +60,27 @@ export default function HeroSection() {
             future with comprehensive data and expert guidance.
           </p>
 
+          {/* College Cards Section */}
+          {collegeData && collegeData.results?.length > 0 && (
+            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {collegeData.results.slice(0, 20).map((college) => {
+                console.log("Formatted College:", college);
+                const formattedCollege = {
+                  id: college.id,
+                  name: college.school.name,
+                  city: college.school.city,
+                  state: college.school.state,
+                  annual_cost: college.latest.cost.avg_net_price.overall,
+                  median_earnings: college.latest.earnings["10_yrs_after_entry"].median,
+                  type: college.latest.school.peps_ownership
+                };
+
+                return (
+                  <CollegeCard key={college.id} college={formattedCollege} />
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </section>
