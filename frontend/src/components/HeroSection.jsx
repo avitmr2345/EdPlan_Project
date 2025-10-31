@@ -60,28 +60,92 @@ export default function HeroSection() {
             future with comprehensive data and expert guidance.
           </p>
 
-          {/* College Cards Section */}
-          {collegeData && collegeData.results?.length > 0 && (
-            <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {collegeData.results.slice(0, 20).map((college) => {
-                console.log("Formatted College:", college);
-                const formattedCollege = {
-                  id: college.id,
-                  name: college.school.name,
-                  city: college.school.city,
-                  state: college.school.state,
-                  annual_cost: college.latest.cost.avg_net_price.overall,
-                  median_earnings: college.latest.earnings["10_yrs_after_entry"].median,
-                  type: college.latest.school.peps_ownership
-                };
+          {/* <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="#search-section" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                data-testid="button-get-started"
+                className="text-base px-8 py-6 bg-chart-2 hover:bg-chart-2 text-white font-semibold shadow-lg hover:shadow-xl transition-all w-full sm:w-auto"
+              >
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
 
-                return (
-                  <CollegeCard key={college.id} college={formattedCollege} />
-                );
-              })}
+            <Link href="/education-plan" className="w-full sm:w-auto">
+              <Button
+                size="lg"
+                variant="outline"
+                data-testid="button-create-plan"
+                className="text-base px-8 py-6 font-semibold w-full sm:w-auto"
+              >
+                Create Education Plan
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-16 pt-12 border-t">
+            <div className="text-center" data-testid="stat-colleges">
+              <div className="font-heading text-3xl md:text-4xl font-bold text-primary mb-1">
+                5,000+
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Colleges Listed
+              </div>
             </div>
-          )}
+            <div className="text-center" data-testid="stat-programs">
+              <div className="font-heading text-3xl md:text-4xl font-bold text-primary mb-1">
+                10,000+
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Programs Available
+              </div>
+            </div>
+            <div className="text-center" data-testid="stat-students">
+              <div className="font-heading text-3xl md:text-4xl font-bold text-primary mb-1">
+                50,000+
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Students Helped
+              </div>
+            </div>
+            <div className="text-center" data-testid="stat-satisfaction">
+              <div className="font-heading text-3xl md:text-4xl font-bold text-primary mb-1">
+                98%
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Satisfaction Rate
+              </div>
+            </div>
+          </div> */}
         </div>
+      </div>
+
+      <div className="mx-auto px-30">
+        {/* College Cards Section */}
+        {collegeData && collegeData.results?.length > 0 && (
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {collegeData.results.slice(0, 20).map((college) => {
+              console.log("Formatted College:", college);
+              const formattedCollege = {
+                id: college.id,
+                name: college.school.name,
+                city: college.school.city,
+                state: college.school.state,
+                college_url: college.school.school_url,
+                type: college.latest.school.peps_ownership,
+                annual_cost: college.latest.cost.avg_net_price.overall,
+                median_earnings:
+                  college.latest.earnings["10_yrs_after_entry"].median,
+                acceptance_rate: college.latest.admissions.admission_rate.overall,
+              };
+
+              return (
+                <CollegeCard key={college.id} college={formattedCollege} />
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
