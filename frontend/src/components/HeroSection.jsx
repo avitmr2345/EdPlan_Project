@@ -121,7 +121,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="mx-auto px-30">
+      <div className="mx-10">
         {/* College Cards Section */}
         {collegeData && collegeData.results?.length > 0 && (
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -138,6 +138,9 @@ export default function HeroSection() {
                 median_earnings:
                   college.latest.earnings["10_yrs_after_entry"].median,
                 acceptance_rate: college.latest.admissions.admission_rate.overall,
+                locale: college.school.locale,
+                size: college.latest.student.size_category,
+                graduation_rate: college.latest.completion.consumer_rate,
               };
 
               return (
